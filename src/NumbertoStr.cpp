@@ -19,7 +19,52 @@ NOTES: Don't create new string.
 
 #include <stdio.h>
 
+int reverseIt(int num, int *l)
+{
+	int rev = 0;
+	*l = 0;
+	while (num > 0)
+	{
+		rev = 10 * rev + (num % 10);
+		num = num / 10;
+		*l = *l + 1;
+	}
 
-void number_to_str(float number, char *str,int afterdecimal){
-	
+	return rev;
+}
+
+
+void number_to_str(float number, char *str, int afterdecimal){
+	int num = 0, reverse, i = 0, isNeg = 0, decAt = 0, j;
+	int* pdecAt = &decAt;
+
+	if (number < 0)
+	{
+		isNeg = 1;
+		number = number*(-1);
+	}
+
+	if (afterdecimal > 0)
+	{
+		for (j = 0; j < afterdecimal; j++)
+			number *= 10;
+	}
+	num = (int)number;
+	reverse = reverseIt(num, pdecAt);
+
+	decAt -= afterdecimal;
+
+	if (isNeg == 1)
+	{
+		str[i++] = '-';
+		decAt++;
+	}
+	while (reverse > 0)
+	{
+		if (i == decAt) str[i++] = '.';
+
+		str[i++] = (reverse % 10) + '0';
+		reverse = reverse / 10;
+	}
+
 }
